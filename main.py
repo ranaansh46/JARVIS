@@ -6,7 +6,6 @@ from datetime import datetime
 # Global Variables
 query = "wish"
 
-
 # Global Functions
 def getcom():
     query = input("Enter your command: ")
@@ -44,9 +43,11 @@ class white:
         print("\n type Help for list of basic commands")
 
     def wishme(self):
+
         d = datetime.now()
         hour = int(d.hour)
         print("\n")
+        
         if hour>=6 and hour<12:
             print("good morning")
         elif hour>=12 and hour<18:
@@ -58,6 +59,11 @@ class white:
         elif hour>=0 and hour<6:
             print("sun is busy on the other side of earth you should sleep now...")
         print("\n")
+
+    def website(self):    
+        url = query.replace("open ","https//:www.")
+        url = url + ".com"
+        webbrowser.open(url)
 
 # red class for red mode to change the user profiles and make changes in lists
 class red(white):
@@ -88,29 +94,32 @@ if __name__ == '__main__':
         if 'hello' in query:
             print('hello sir input some command!')
 
-        elif 'open youtube' in query:
-            webbrowser.open("youtube.com")
+        elif 'open ' in query:
+            m.website()
 
-        elif 'open studio' in query:
-            webbrowser.open("studio.youtube.com")
+        # elif 'open youtube' in query:
+        #     webbrowser.open("youtube.com")
 
-        elif 'open spotify' in query:
-            webbrowser.open("open.spotify.com")
+        # elif 'open studio' in query:
+        #     webbrowser.open("studio.youtube.com")
 
-        elif 'open bing' in query:
-            webbrowser.open("bing.com")
+        # elif 'open spotify' in query:
+        #     webbrowser.open("open.spotify.com")
 
-        elif 'open mail' in query:
-            webbrowser.open("mail.google.com")
+        # elif 'open bing' in query:
+        #     webbrowser.open("bing.com")
 
-        elif 'open browser' in query:
-            webbrowser.open("www.bing.com")
+        # elif 'open mail' in query:
+        #     webbrowser.open("mail.google.com")
+
+        # elif 'open browser' in query:
+        #     webbrowser.open("www.bing.com")
 
         elif 'count from 1 to 10' in query:
             print("1 2 3 4 5 6 7 8 9 10") 
 
-        elif 'open fb' in query:
-            webbrowser.open("facebook.com")
+        # elif 'open fb' in query:
+        #     webbrowser.open("facebook.com")
 
         elif 'countdown' in query:
             print("10 9 8 7 6 5 4 3 2 1 0 -1 -2 -3 -4 -5 -6 -7 -8 -9 -10") 
