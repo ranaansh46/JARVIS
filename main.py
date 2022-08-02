@@ -3,16 +3,22 @@ import wikipedia
 import webbrowser
 import os
 from datetime import datetime
+from rich.prompt import Prompt
+from rich.console import Console
+from rich.table import Table
+from rich import print
+from rich.panel import Panel
 # Global Variables
 query = "wish"
 
 # Global Functions
 def getcom():
-    query = input("Enter your command: ")
+    query = Prompt.ask("enter your command")
+    query = query.lower()
     return query
 
 def initialize():
-    mode = input("Enter mode :")
+    mode = Prompt.ask("Enter mode", choices=["default", "red", "blue"], default="default")
     if mode == "red":
         obj2 = red()
         mo = obj2
@@ -24,29 +30,17 @@ def initialize():
         mo = obj1
     return mo
 
-def help():
-    print("|Help :")
-    print("|1. Help : lists all the command for the current mod")
-    print("|2. Mode : lets you enable other modes of JARVIS\n|\t1. red : To change the list contents and edit user profile\n|\t2: blue : to access jarvis as a server from other devices or other computers")
-    print("|3. open : opens predefined websites for the user.\nExample\n\topen spotify : opens spotify in browser")
-    print("|4. wikipedia : to search anything on wikipedia just use term wikipedia in the command.\nexample:\n\twikipedia ocean : this will give results of wikipedia ocean page in terminal")
-
-
 # All classes
 
 # default class where basic functions are defined
 class white:
     def __init__(self):
-        print("------------------------------------------")
-        print("-This is JARVIS activated in Default mode-")
-        print("------------------------------------------")
-        print("\n type Help for list of basic commands")
+        print(Panel.fit("Jarvis at your service, working in [bold]default[/bold] mode", title="Welcome", subtitle="type help for list of commands"))
 
     def wishme(self):
 
         d = datetime.now()
         hour = int(d.hour)
-        print("\n")
         
         if hour>=6 and hour<12:
             print("good morning")
@@ -58,12 +52,27 @@ class white:
             print("hello")
         elif hour>=0 and hour<6:
             print("sun is busy on the other side of earth you should sleep now...")
-        print("\n")
 
     def website(self):    
         url = query.replace("open ","https//:www.")
-        url = url + ".com"
-        webbrowser.open(url)
+        ext = ".com"
+        url = url + ext
+        webbrowser.open(url)   
+
+    def wiki(self):        
+        query = query.replace("wiki", "")
+        result = wikipedia.summary(query, sentences=2)
+
+    def help(self):
+        table = Table(title="Basic commands for Jarvis module")
+        table.add_column("Command", justify="right", style="cyan", no_wrap=True)
+        table.add_column("Function", style="magenta")
+        table.add_row("help", "prints all the commands")
+        table.add_row("open", "to open any website")
+        table.add_row("exit", "exit command can be accessed using multiple keywords like bye,exit,terminate or quit")
+        table.add_row("wiki", "this will search the provided keyword and return a result summary from wikipedia")
+        console = Console()
+        console.print(table)
 
 # red class for red mode to change the user profiles and make changes in lists
 class red(white):
@@ -72,7 +81,6 @@ class red(white):
         print("------------------------------------------")
         print("-  This is JARVIS activated in Red mode  -")
         print("------------------------------------------")
-
 
 # blue class for blue mode 
 class blue(white):
@@ -96,40 +104,17 @@ if __name__ == '__main__':
 
         elif 'open ' in query:
             m.website()
-
-        # elif 'open youtube' in query:
-        #     webbrowser.open("youtube.com")
-
-        # elif 'open studio' in query:
-        #     webbrowser.open("studio.youtube.com")
-
-        # elif 'open spotify' in query:
-        #     webbrowser.open("open.spotify.com")
-
-        # elif 'open bing' in query:
-        #     webbrowser.open("bing.com")
-
-        # elif 'open mail' in query:
-        #     webbrowser.open("mail.google.com")
-
-        # elif 'open browser' in query:
-        #     webbrowser.open("www.bing.com")
-
+            
         elif 'count from 1 to 10' in query:
             print("1 2 3 4 5 6 7 8 9 10") 
-
-        # elif 'open fb' in query:
-        #     webbrowser.open("facebook.com")
 
         elif 'countdown' in query:
             print("10 9 8 7 6 5 4 3 2 1 0 -1 -2 -3 -4 -5 -6 -7 -8 -9 -10") 
 
-        elif 'wikipedia' in query:
-            query = query.replace("wikipedia", "")
-            result = wikipedia.summary(query, sentences=2)
-
-        elif 'Help' == query:
-            help()
+        elif 'wiki' in query:
+            wiki()
+        elif 'help' == query:
+            m.help()
     #all the code ahead of this point is written to exit the jarvis module
         elif 'bye' == query:
             print("bye sir, have a good time.")
